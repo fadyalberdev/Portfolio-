@@ -7,7 +7,7 @@
  */
 
 export const site = {
-  url: "https://fadyalber.netlify.app", // ← change to your real Netlify URL or domain after deploying
+  url: "https://portfoliofadydev.netlify.app", // ← change if you add a custom domain
   title: "Fady Alber — Full-Stack Engineer",
   description:
     "Fady Alber Ibrahim, a junior full-stack engineer from Cairo. I build full-stack products end to end, from the database to the pixels, with AI in the loop.",
