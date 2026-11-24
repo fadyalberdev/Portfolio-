@@ -40,17 +40,21 @@ npm run dev        # http://localhost:3000
 npm run build && npm start   # production build
 ```
 
-## Deploy on Vercel
+## Deploy on Netlify
 
-1. Push this folder to a GitHub repo, e.g. `fadyalberdev/portfolio`:
-   ```bash
-   git init && git add . && git commit -m "Portfolio"
-   git branch -M main
-   git remote add origin https://github.com/fadyalberdev/portfolio.git
-   git push -u origin main
-   ```
-2. Go to [vercel.com/new](https://vercel.com/new), import the repo and click **Deploy**. No settings or environment variables are needed.
-3. Copy your production URL (or a custom domain) into `site.url` in `content.ts` and push again, so canonical links, the sitemap and the Open Graph image use the right domain.
+**From GitHub (recommended, redeploys on every push):**
+
+1. Push this folder to a GitHub repo, e.g. `fadyalberdev/portfolio`.
+2. In Netlify, go to **Add new site → Import an existing project → GitHub** and pick the repo.
+3. Keep the detected settings (`npm run build`, publish `.next`; `netlify.toml` already sets them) and click **Deploy**.
+4. Put the live URL (or your custom domain) into `site.url` in `content.ts` and push again, so canonical links, the sitemap and the Open Graph image use it.
+
+**From the command line:**
+
+```bash
+npx netlify-cli login
+npx netlify-cli deploy --build --prod
+```
 
 ## How it works
 
