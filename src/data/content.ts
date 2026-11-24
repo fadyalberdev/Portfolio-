@@ -52,7 +52,6 @@ export const nav = [
 ];
 
 export const hero = {
-  eyebrow: "Portfolio — 2026",
   typing: ["Full-Stack Engineer", "Next.js + FastAPI", "Builds AI features"],
   pitch: "I build full-stack products end to end, from the database to the pixels, with AI in the loop.",
   cta: {
@@ -70,15 +69,15 @@ export const about = {
   ],
   facts: [
     { label: "Based in", value: "Cairo, Egypt" },
-    { label: "Degree", value: "Software Eng. · 2026" },
-    { label: "Grad project", value: "AXIOM · Grade A+" },
-    { label: "Languages", value: "Arabic · English" },
+    { label: "Degree", value: "Software Engineering, 2026" },
+    { label: "Graduation project", value: "AXIOM, graded A+" },
+    { label: "Languages", value: "Arabic and English" },
   ],
 };
 
 export const featured = {
   name: "AXIOM",
-  tagline: "AI-powered real estate platform for Egypt",
+  tagline: "an AI-powered real estate platform for Egypt",
   summary:
     "A production-grade property platform for the Egyptian market, with sell and rent listings, a dedicated Housemates module for students and newcomers sharing a home, and AI throughout: natural-language search, a chatbot, recommendations and fraud scoring.",
   meta: [
@@ -87,26 +86,32 @@ export const featured = {
     { label: "Grade", value: "A+" },
     { label: "Year", value: "2026" },
   ],
+  // Each highlight lights up parts of the architecture diagram as you scroll.
+  // Node ids: web, api, db, llm, stripe, tests
   highlights: [
-    { title: "FastAPI backend", body: "15 REST routers, JWT auth with role-based access, and a listing approval workflow (pending → approved → active)." },
-    { title: "RAG with a local LLM", body: "Ollama + pgvector power natural-language search, a conversational chatbot, recommendations and heuristic fraud scoring." },
-    { title: "Payments", body: "Stripe booking fees and subscription plans, kept in sync through webhooks." },
-    { title: "Housemates", body: "Shared-housing module for students relocating to Cairo, the platform's main differentiator." },
-    { title: "Next.js frontend", body: "TypeScript + Tailwind UI for search, listings, chat, checkout and an admin moderation console." },
-    { title: "Tested end to end", body: "Playwright suite covering auth, search, listings, payments and AI flows." },
+    { title: "Next.js frontend", body: "TypeScript and Tailwind UI for search, listings, chat, checkout and an admin moderation console.", nodes: ["web"] },
+    { title: "FastAPI backend", body: "15 REST routers, JWT auth with role-based access, and a listing approval workflow: pending, approved, active.", nodes: ["api"] },
+    { title: "RAG with a local LLM", body: "Ollama and pgvector power natural-language search, a chatbot, recommendations and heuristic fraud scoring.", nodes: ["llm", "db"] },
+    { title: "Stripe payments", body: "Booking fees and subscription plans, kept in sync through webhooks.", nodes: ["stripe"] },
+    { title: "Housemates", body: "A shared-housing module for students relocating to Cairo, and the platform's main differentiator.", nodes: ["web", "api", "db"] },
+    { title: "Tested end to end", body: "A Playwright suite covering auth, search, listings, payments and the AI flows.", nodes: ["tests"] },
   ],
   stack: ["FastAPI", "Python", "Next.js", "TypeScript", "Tailwind", "Supabase", "PostgreSQL", "pgvector", "Ollama", "RAG", "Stripe", "JWT", "Playwright"],
-  // Drop screenshots into /public/projects and list them here, e.g. "/projects/axiom-home.png".
-  // Leave empty to show the designed placeholder.
-  screenshots: [] as { src: string; alt: string }[],
+  // Screenshot frames under the case study. Add files to /public/projects and set src,
+  // e.g. "/projects/axiom-search.png". An empty src shows a placeholder frame.
+  screenshots: [
+    { src: "", alt: "AXIOM natural-language search results", caption: "Search" },
+    { src: "", alt: "AXIOM Housemates listing", caption: "Housemates" },
+    { src: "", alt: "AXIOM admin moderation console", caption: "Admin console" },
+  ],
   links: [
     { label: "View repository", href: "https://github.com/fadyalberdev/axiom" },
   ],
 };
 
 export const moreProjects = {
-  heading: "More from GitHub",
-  intro: "Pulled live from the GitHub API, most recently updated first.",
+  heading: "More on GitHub",
+  intro: "Pulled live from GitHub, most recently updated first.",
   // Repos you don't want in the grid (the featured one is already shown above).
   exclude: ["axiom", "fadyalberdev"],
   // Always shown, even if the API is unreachable or rate-limited.
@@ -133,11 +138,11 @@ export const skills = [
 ];
 
 export const beyond = {
-  heading: "Beyond code",
-  intro: "Before and alongside engineering, I've worked behind the camera and in the design file. It's where I learned composition, deadlines and clients.",
+  heading: "I also work behind the lens.",
+  intro: "Alongside engineering I shoot and design for clients. It's where I learned composition, deadlines and taking feedback.",
   roles: [
     { title: "Photographer & Video Editor", org: "Raya CX", note: "Corporate events & social campaigns" },
-    { title: "Graphic Designer", org: "DOT Studio", note: "Social creative for public-personality clients · 2025–26" },
+    { title: "Graphic Designer", org: "DOT Studio", note: "Social creative for public-personality clients, 2025–26" },
     { title: "Product & Food Photographer", org: "LifeBot / Shrimps & Smox", note: "Product launches & a full visual menu" },
   ],
   // Put images in /public/beyond and set src, e.g. "/beyond/01.jpg". Empty src = placeholder tile.
@@ -147,6 +152,7 @@ export const beyond = {
     { src: "", alt: "Product photography", label: "Product" },
     { src: "", alt: "Social media design", label: "Design" },
     { src: "", alt: "Video editing still", label: "Video" },
+    { src: "", alt: "Portrait photography", label: "Portrait" },
   ],
 };
 
@@ -172,14 +178,14 @@ export const terminal = {
     ],
     whoami: [
       `${person.fullName}`,
-      `${person.role} · ${person.location}`,
+      `${person.role}, ${person.location}`,
       `${person.education}`,
       "Led backend + AI on AXIOM (A+). Ships fast with AI tools. Designer's eye.",
     ],
     skills: skills.map((s) => `${s.group.padEnd(10)} ${s.items.join(", ")}`),
     projects: [
-      "AXIOM            AI real-estate platform · FastAPI, Next.js, pgvector, Ollama, Stripe",
-      "Coffee Shop      Flask + SQLite e-commerce · auth, cart, checkout",
+      "AXIOM            AI real-estate platform: FastAPI, Next.js, pgvector, Ollama, Stripe",
+      "Coffee Shop      Flask + SQLite e-commerce: auth, cart, checkout",
       "…more in the Work section, pulled live from GitHub.",
     ],
     contact: [
@@ -188,4 +194,13 @@ export const terminal = {
       `github    ${socials.github.label}`,
     ],
   } as Record<string, string[]>,
+};
+
+/** Section headings that aren't covered above. */
+export const headings = {
+  skills: { title: "From the schema to the pixel.", intro: "What I reach for, grouped by layer." },
+  terminal: {
+    title: "Prefer the command line?",
+    intro: "Type a command and press Enter. Try whoami, skills, projects or contact. Up and down recall history; Tab completes.",
+  },
 };

@@ -5,18 +5,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#0a0a09",
-        paper: "#f2f0ea",
-        muted: "#8f8d86",
-        line: "rgba(242,240,234,0.12)",
-        accent: "#c8ff2e",
+        ink: "#0d0b09",
+        coal: "#16130f",
+        paper: "#efe8dc",
+        muted: "#9a9084",
+        line: "rgba(239,232,220,0.13)",
+        accent: "#ffa31a",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        serif: ["var(--font-serif)", "Georgia", "serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       maxWidth: { site: "1440px" },
+      transitionTimingFunction: { out: "cubic-bezier(0.16, 1, 0.3, 1)", in: "cubic-bezier(0.7, 0, 0.84, 0)" },
     },
   },
   plugins: [],

@@ -1,24 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "@/lib/gsap";
 
 /**
- * Custom cursor (dot + ring) and a soft accent glow that trails the pointer.
- * Only active on devices with a fine pointer; disabled for reduced motion.
+ * Custom cursor (dot + ring) and an amber "safelight" glow that trails the pointer.
+ * The ring grows over links and shows a label over anything with data-cursor.
+ * Fine pointers only; off for reduced motion. Position uses gsap.quickTo
+ * (transform only); size changes are a scale, so nothing triggers layout.
  */
 export default function Cursor() {
   const [enabled, setEnabled] = useState(false);
-  const [hovering, setHovering] = useState(false);
-  const [pressed, setPressed] = useState(false);
-  const [visible, setVisible] = useState(false);
-
-  const x = useMotionValue(-100);
-  const y = useMotionValue(-100);
-  const ringX = useSpring(x, { stiffness: 500, damping: 40, mass: 0.4 });
-  const ringY = useSpring(y, { stiffness: 500, damping: 40, mass: 0.4 });
-  const glowX = useSpring(x, { stiffness: 60, damping: 20 });
-  const glowY = useSpring(y, { stiffness: 60, damping: 20 });
+  const dot = useRef<HTMLDivElement>(null);
+  const ring = useRef<HTMLDivElement>(null);
+  const glow = useRef<HTMLDivElement>(null);
+  const labelEl = useRef<HTMLSpanElement>(null);
+  const wrap = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -35,22 +32,34 @@ export default function Cursor() {
 
   useEffect(() => {
     const root = document.documentElement;
-    if (!enabled) {
-      root.classList.remove("has-cursor");
-      return;
-    }
+    if (!enabled) return;
     root.classList.add("has-cursor");
 
+    const to = (el: HTMLElement | null, dur: number) => ({
+      x: gsap.quickTo(el, "x", { duration: dur, ease: "power3.out" }),
+      y: gsap.quickTo(el, "y", { duration: dur, ease: "power3.out" }),
+    });
+    const d = to(dot.current, 0.05);
+    const r = to(ring.current, 0.18);
+    const g = to(glow.current, 0.9);
+    let state = "";
+
     const move = (e: PointerEvent) => {
-      x.set(e.clientX);
-      y.set(e.clientY);
-      setVisible(true);
+      d.x(e.clientX); d.y(e.clientY);
+      r.x(e.clientX); r.y(e.clientY);
+      g.x(e.clientX); g.y(e.clientY);
+      wrap.current!.style.opacity = "1";
       const t = e.target as Element | null;
-      setHovering(!!t?.closest("a, button, [data-cursor='hover'], input, label"));
+      const label = t?.closest<HTMLElement>("[data-cursor]")?.dataset.cursor ?? "";
+      const next = label ? `label:${label}` : t?.closest("a, button, input, label") ? "hover" : "";
+      if (next === state) return;
+      state = next;
+      wrap.current!.dataset.state = label ? "label" : next;
+      if (label) labelEl.current!.textContent = label;
     };
-    const down = () => setPressed(true);
-    const up = () => setPressed(false);
-    const leave = () => setVisible(false);
+    const down = () => (wrap.current!.dataset.pressed = "true");
+    const up = () => delete wrap.current!.dataset.pressed;
+    const leave = () => (wrap.current!.style.opacity = "0");
 
     window.addEventListener("pointermove", move, { passive: true });
     window.addEventListener("pointerdown", down);
@@ -63,32 +72,21 @@ export default function Cursor() {
       window.removeEventListener("pointerup", up);
       document.removeEventListener("pointerleave", leave);
     };
-  }, [enabled, x, y]);
+  }, [enabled]);
 
   if (!enabled) return null;
 
   return (
-    <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[70]" style={{ opacity: visible ? 1 : 0, transition: "opacity .3s" }}>
-      <motion.div
-        className="fixed left-0 top-0 -z-10 h-[520px] w-[520px] rounded-full"
-        style={{
-          x: glowX,
-          y: glowY,
-          translateX: "-50%",
-          translateY: "-50%",
-          background: "radial-gradient(circle, rgba(200,255,46,0.10) 0%, rgba(200,255,46,0.03) 35%, transparent 65%)",
-        }}
-      />
-      <motion.div
-        className="fixed left-0 top-0 rounded-full border border-accent mix-blend-difference"
-        style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }}
-        animate={{ width: hovering ? 56 : 32, height: hovering ? 56 : 32, scale: pressed ? 0.85 : 1, backgroundColor: hovering ? "rgba(200,255,46,0.15)" : "rgba(200,255,46,0)" }}
-        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-      />
-      <motion.div
-        className="fixed left-0 top-0 h-1.5 w-1.5 rounded-full bg-accent"
-        style={{ x, y, translateX: "-50%", translateY: "-50%" }}
-      />
+    <div ref={wrap} aria-hidden="true" className="cursor pointer-events-none fixed inset-0 z-[70] opacity-0 transition-opacity duration-300">
+      <div ref={glow} className="fixed -left-[320px] -top-[320px] -z-10 h-[640px] w-[640px] rounded-full bg-[radial-gradient(circle,rgba(255,163,26,0.13)_0%,rgba(255,120,20,0.05)_35%,transparent_65%)]" />
+      <div ref={ring} className="fixed left-0 top-0">
+        <div className="cursor-ring grid h-[76px] w-[76px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-accent">
+          <span ref={labelEl} className="cursor-label text-[13px] font-semibold text-ink" />
+        </div>
+      </div>
+      <div ref={dot} className="fixed left-0 top-0">
+        <div className="cursor-dot h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent" />
+      </div>
     </div>
   );
 }

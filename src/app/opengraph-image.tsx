@@ -15,25 +15,25 @@ export default function OG() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#0a0a09",
-          color: "#f2f0ea",
+          background: "#0d0b09",
+          color: "#efe8dc",
           padding: "64px 72px",
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 22, color: "#8f8d86", letterSpacing: 4, textTransform: "uppercase" }}>
-          <span>Portfolio — 2026</span>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 24, color: "#9a9084" }}>
+          <span>{person.role}</span>
           <span>{person.location}</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column", lineHeight: 0.9 }}>
           <span style={{ fontSize: 200, fontWeight: 700, letterSpacing: -10 }}>{person.firstName}</span>
-          <span style={{ fontSize: 200, fontWeight: 700, letterSpacing: -10, color: "#c8ff2e", paddingLeft: 120, fontStyle: "italic" }}>
+          <span style={{ fontSize: 200, fontWeight: 700, letterSpacing: -10, color: "#ffa31a", paddingLeft: 110 }}>
             {person.lastName}
           </span>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderTop: "1px solid rgba(242,240,234,0.15)", paddingTop: 28 }}>
-          <span style={{ fontSize: 30, maxWidth: 760, lineHeight: 1.25 }}>{hero.pitch}</span>
-          <span style={{ fontSize: 22, color: "#c8ff2e" }}>{"> Full-Stack Engineer"}</span>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderTop: "1px solid rgba(239,232,220,0.15)", paddingTop: 28 }}>
+          <span style={{ fontSize: 30, maxWidth: 900, lineHeight: 1.25 }}>{hero.pitch}</span>
+
         </div>
       </div>
     ),

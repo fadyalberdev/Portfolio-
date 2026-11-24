@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { terminal, person } from "@/data/content";
+import { terminal, person, headings } from "@/data/content";
 import SectionHeader from "./SectionHeader";
-import Reveal from "./Reveal";
 
 type Entry = { id: number; cmd?: string; lines: string[]; error?: boolean };
 
@@ -104,19 +103,9 @@ export default function Terminal() {
 
   return (
     <section id="terminal" aria-labelledby="terminal-title" className="mx-auto max-w-site px-5 py-28 sm:px-8 lg:px-12 lg:py-40">
-      <SectionHeader
-        index="05"
-        label="Terminal"
-        id="terminal-title"
-        title={
-          <>
-            Prefer the command line? <span className="font-serif italic text-accent">Ask me anything.</span>
-          </>
-        }
-        aside="Type a command and press Enter. Try whoami, skills, projects or contact. ↑/↓ for history, Tab to complete."
-      />
-      <Reveal className="mt-16">
-        <div className="overflow-hidden rounded-md border border-line bg-[#0d0d0c] shadow-[0_0_0_1px_rgba(200,255,46,0.04),0_40px_120px_-40px_rgba(200,255,46,0.18)]">
+      <SectionHeader id="terminal-title" title={headings.terminal.title} intro={headings.terminal.intro} />
+      <div className="mt-14 lg:mt-20">
+        <div className="overflow-hidden rounded-xl border border-line bg-coal transition-[border-color] duration-150 focus-within:border-accent/60 shadow-[0_40px_100px_-60px_rgba(255,163,26,0.18)]">
           <div className="flex items-center gap-2 border-b border-line px-4 py-3">
             <span className="h-3 w-3 rounded-full bg-[#ff5f57]/80" />
             <span className="h-3 w-3 rounded-full bg-[#febc2e]/80" />
@@ -127,6 +116,7 @@ export default function Terminal() {
           <div
             ref={scrollRef}
             onClick={() => inputRef.current?.focus()}
+            data-lenis-prevent
             className="h-[420px] overflow-y-auto p-5 font-mono text-[13px] leading-relaxed sm:p-7 sm:text-sm"
           >
             <div role="log" aria-live="polite" aria-label="Terminal output">
@@ -170,20 +160,20 @@ export default function Terminal() {
             </form>
           </div>
           <div className="flex flex-wrap gap-2 border-t border-line px-4 py-3">
-            <span className="mr-1 self-center font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Quick</span>
+            <span className="mr-1 self-center text-sm text-muted">Try</span>
             {suggestions.map((s) => (
               <button
                 key={s}
                 type="button"
                 onClick={() => run(s)}
-                className="rounded-full border border-line px-3 py-1 font-mono text-xs text-paper/80 transition-colors hover:border-accent hover:text-accent"
+                className="rounded-full border border-line px-3 py-1 font-mono text-xs text-paper/80 transition-[color,border-color,transform] duration-150 hover:border-accent hover:text-accent active:scale-95"
               >
                 {s}
               </button>
             ))}
           </div>
         </div>
-      </Reveal>
+      </div>
     </section>
   );
 }

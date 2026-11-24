@@ -1,58 +1,52 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { skills } from "@/data/content";
+import { useRef } from "react";
+import { skills, headings } from "@/data/content";
+import { gsap, ScrollTrigger, useGSAP, MOTION_OK } from "@/lib/gsap";
 import SectionHeader from "./SectionHeader";
 
-const ease = [0.22, 1, 0.36, 1] as const;
-
+/** Each layer's words rise out of a mask as its row enters, left to right. */
 export default function Skills() {
+  const root = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add(MOTION_OK, () => {
+        gsap.utils.toArray<HTMLElement>(".skill-row").forEach((row) => {
+          gsap.from(row.querySelectorAll(".skill-word"), {
+            yPercent: 110,
+            duration: 0.9,
+            stagger: 0.05,
+            scrollTrigger: { trigger: row, start: "top 88%", once: true },
+          });
+        });
+        ScrollTrigger.refresh();
+      });
+      return () => mm.revert();
+    },
+    { scope: root },
+  );
+
   return (
-    <section id="skills" aria-labelledby="skills-title" className="mx-auto max-w-site px-5 py-28 sm:px-8 lg:px-12 lg:py-40">
-      <SectionHeader
-        index="04"
-        label="Skills"
-        id="skills-title"
-        title={
-          <>
-            From the schema <span className="font-serif italic text-accent">to the pixel.</span>
-          </>
-        }
-      />
-      <div className="mt-16 border-b border-line">
-        {skills.map((g, gi) => (
-          <motion.div
-            key={g.group}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
-            className="group grid grid-cols-12 items-baseline gap-x-6 gap-y-4 border-t border-line py-7 transition-colors duration-500 hover:bg-paper/[0.02] sm:py-9"
-          >
-            <motion.p
-              variants={{ hidden: { opacity: 0, x: -16 }, show: { opacity: 1, x: 0, transition: { duration: 0.6, ease } } }}
-              className="col-span-12 flex items-baseline gap-4 md:col-span-3"
-            >
-              <span className="font-mono text-xs text-accent">{String(gi + 1).padStart(2, "0")}</span>
-              <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted transition-colors group-hover:text-paper">{g.group}</span>
-            </motion.p>
-            <motion.ul
-              variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } } }}
-              className="col-span-12 flex flex-wrap gap-x-2 gap-y-1 md:col-span-9"
-            >
-              {g.items.map((s, i) => (
-                <motion.li
-                  key={s}
-                  variants={{ hidden: { opacity: 0, y: "60%" }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease } } }}
-                  className="text-3xl font-medium tracking-tight sm:text-4xl lg:text-5xl"
-                >
-                  <span className="transition-colors duration-300 hover:text-accent">{s}</span>
-                  {i < g.items.length - 1 && <span className="ml-2 font-serif italic text-muted/50" aria-hidden="true">/</span>}
-                </motion.li>
-              ))}
-            </motion.ul>
-          </motion.div>
+    <section ref={root} id="skills" aria-labelledby="skills-title" className="mx-auto max-w-site px-5 py-28 sm:px-8 lg:px-12 lg:py-44">
+      <SectionHeader id="skills-title" title={headings.skills.title} intro={headings.skills.intro} />
+      <dl className="mt-14 lg:mt-20">
+        {skills.map((g) => (
+          <div key={g.group} className="skill-row grid grid-cols-12 items-baseline gap-x-6 gap-y-3 border-t border-line py-7 last:border-b sm:py-9">
+            <dt className="col-span-12 text-base text-muted md:col-span-3">{g.group}</dt>
+            <dd className="col-span-12 md:col-span-9">
+              <ul className="flex flex-wrap gap-x-[0.75em] gap-y-1 text-[clamp(1.75rem,4vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.03em]">
+                {g.items.map((s) => (
+                  <li key={s} className="overflow-hidden pb-[0.08em]">
+                    <span className="skill-word inline-block">{s}</span>
+                  </li>
+                ))}
+              </ul>
+            </dd>
+          </div>
         ))}
-      </div>
+      </dl>
     </section>
   );
 }

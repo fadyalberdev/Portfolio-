@@ -1,12 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { Archivo, JetBrains_Mono } from "next/font/google";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 import { site, person, socials } from "@/data/content";
 import Providers from "@/components/Providers";
 
-const sans = Space_Grotesk({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
-const serif = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-serif", display: "swap" });
-const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
+// One family with a width axis: the hero animates it, everything else stays at normal width.
+const sans = Archivo({ subsets: ["latin"], axes: ["wdth"], variable: "--font-sans", display: "swap" });
+const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap", preload: false });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a09",
+  themeColor: "#0d0b09",
   colorScheme: "dark",
 };
 
@@ -47,9 +48,9 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable} ${serif.variable} ${mono.variable}`}>
+    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
       <body className="font-sans">
-        <a href="#main" className="sr-only-focusable fixed left-4 top-4 z-[100] bg-accent px-4 py-2 font-mono text-sm text-ink">
+        <a href="#main" className="sr-only-focusable fixed left-4 top-4 z-[100] rounded-full bg-accent px-4 py-2 text-sm font-semibold text-ink">
           Skip to content
         </a>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />

@@ -1,19 +1,18 @@
-import Reveal from "./Reveal";
+import SplitHeading from "./SplitHeading";
 
-type Props = { index: string; label: string; title: React.ReactNode; id?: string; aside?: React.ReactNode };
+type Props = { title: React.ReactNode; id?: string; intro?: React.ReactNode };
 
-export default function SectionHeader({ index, label, title, id, aside }: Props) {
+/** Heading on the left, a short intro pinned to the right column's baseline. */
+export default function SectionHeader({ title, id, intro }: Props) {
   return (
-    <header className="grid grid-cols-12 gap-x-6 gap-y-6 border-t border-line pt-6">
-      <p className="col-span-12 font-mono text-xs uppercase tracking-[0.2em] text-muted md:col-span-3">
-        <span className="text-accent">{index}</span> / {label}
-      </p>
-      <Reveal className="col-span-12 md:col-span-9">
-        <h2 id={id} className="text-balance text-4xl font-medium leading-[1.02] tracking-tight sm:text-5xl lg:text-6xl">
-          {title}
-        </h2>
-        {aside && <div className="mt-5 max-w-xl text-base leading-relaxed text-muted">{aside}</div>}
-      </Reveal>
+    <header className="grid grid-cols-12 items-end gap-x-6 gap-y-5">
+      <SplitHeading
+        id={id}
+        className="col-span-12 text-balance text-[clamp(2.4rem,6vw,5.25rem)] font-semibold leading-[0.98] tracking-[-0.035em] lg:col-span-8"
+      >
+        {title}
+      </SplitHeading>
+      {intro && <p className="col-span-12 max-w-md text-pretty text-base leading-relaxed text-muted lg:col-span-4 lg:justify-self-end">{intro}</p>}
     </header>
   );
 }
