@@ -113,7 +113,7 @@ export const moreProjects = {
   heading: "More on GitHub",
   intro: "Pulled live from GitHub, most recently updated first.",
   // Repos you don't want in the grid (the featured one is already shown above).
-  exclude: ["axiom", "fadyalberdev"],
+  exclude: ["axiom", "fadyalberdev", "portfolio", "portfolio-"],
   // Always shown, even if the API is unreachable or rate-limited.
   pinned: [
     {

@@ -77,7 +77,7 @@ export default function Contact() {
       </div>
 
       <div className="mt-20 border-t border-line">
-        <div className="mx-auto flex max-w-site flex-col gap-3 px-5 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
+        <div className="mx-auto flex max-w-site flex-col gap-3 px-5 pb-24 pt-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
           <p>{contact.footer}</p>
           <p>
             © {new Date().getFullYear()} {person.fullName}, {person.location}

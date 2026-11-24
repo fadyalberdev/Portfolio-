@@ -85,11 +85,11 @@ export default function Hero() {
 
   return (
     <section ref={root} id="top" aria-label="Introduction" className="relative flex min-h-[100svh] flex-col overflow-hidden">
-      <div className="mx-auto flex w-full max-w-site flex-1 flex-col px-5 pb-8 pt-28 sm:px-8 lg:px-12">
+      <div className="mx-auto flex w-full max-w-site flex-1 flex-col px-5 pb-8 pt-28 md:pb-20 sm:px-8 lg:px-12">
         <div className="relative mt-auto">
           <h1
             aria-label={person.fullName}
-            className="hero-name select-none text-[clamp(4.6rem,26vw,19rem)] leading-[0.82] tracking-[-0.045em] md:text-[clamp(6rem,min(20vw,24svh),19rem)]"
+            className="hero-name select-none text-[clamp(4.6rem,26vw,19rem)] leading-[0.82] tracking-[-0.045em] md:text-[clamp(6rem,min(20vw,22svh),19rem)]"
           >
             <Word text={person.firstName} />
             <Word text={person.lastName} offset={person.firstName.length} className="pl-[0.55em]" />
